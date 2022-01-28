@@ -1,0 +1,288 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-image: url(../images/mlsa\ question\ desktop.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 0;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, 'sans-serif';
+    font-size: 20px;
+}
+
+.box {
+    /* background-image: url(../images/mlsa\ question\ desktop.jpg); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-bottom: 30px;
+}
+
+@media only screen and (max-width: 768px) {
+    .box{
+        background-image: url(../images/mlsa\ question\ page.jpg); 
+    }
+
+    body {
+        background-image: url(../images/mlsa\ question\ page.jpg); 
+    }
+}
+
+.navbar{
+    border-radius: 0px !important;
+}
+
+#nav-image {
+    height: 30px;
+    margin: 15px;
+}
+
+.round-submit {
+    margin-right: auto;
+}
+
+@media only screen and (max-width: 600px) {
+    #nav-image{height:20px;
+                margin: 10px;}
+}
+
+
+.nav-item {
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300 !important;
+}
+
+#stage-heading {
+    font-weight: 700;
+}
+
+#stage-2-proceed, #stage-1-back {
+    color: white;
+    transition: 0.3s;
+}
+
+#stage-2-proceed:hover, #stage-1-back:hover {
+    color: grey;
+}
+
+#round1-logout {
+    background-color: transparent !important;
+    border-width: 0px !important;
+}
+
+#round1-logout:focus, #round1-logout:hover {
+    color: #5c2d91;
+}
+
+#finishBtn {
+    font-size: 18px;
+}
+
+.content {
+    height: 100%;
+    padding: 10px 20px;
+    background-color: rgba(204, 204, 204, 0.7);
+    border-radius: 10px;
+}
+
+.content > div {
+    height: 100%;
+}
+
+.qa {
+    height: 100%;
+}
+
+.question {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.qnum-span, .marks-span {
+    color: white;
+    background-color: #003E6D;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+
+.form-group {
+    text-align: center;
+}
+
+.response {
+    padding-top: 15px;
+    padding-bottom: 5px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.nav-arrow {
+    height: 100%;
+    padding-top: 15vh;
+    text-align: center;
+    padding-left: 0px;
+    padding-right: 0px;
+    font-size: 6vw;
+}
+
+textarea {
+    resize: none;
+    color: black !important;
+    font-weight: 400 !important;
+    font-size: 18px !important;
+}
+
+.ques-sel {
+    padding: 10px 20px;
+    min-height: 100%;
+    background-color:rgba(92,45,145,0.3);
+    border-radius: 10px;
+}
+
+#ques-sel-title {
+    text-align: center;
+    font-size: 30px;
+}
+
+#ques-sel-time {
+    font-size: 20px;
+}
+
+.instruct-row {
+    background-color: rgba(0,120,212,0.3);
+    border-radius: 10px;
+    margin: 5vh 0;
+    margin-top: 30px !important;
+    margin-bottom: 0px !important;
+    padding: 10px 20px;
+}
+
+.white-font {
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8em;
+}
+
+.sfont {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8em; 
+}
+
+@media only screen and (max-width: 500px) {
+    .white-font{
+        font-size: 0.75em;
+    }
+
+    .sfont{
+        font-size: 0.75em;
+    }
+}
+
+
+
+.progress-info > div > div {
+    text-align: center;
+}
+
+.nav-arrow > button, #stage-2-proceed > p > button, #stage-1-back > p > button {
+    background: none;
+    border: none;
+}
+
+.nav-arrow > button > i {
+    color: grey;
+    transition: 0.3s;
+}
+
+.nav-arrow > button > i:hover {
+    color: #003E6D;
+}
+
+#button-set {
+    margin: 0;
+    padding: 0;
+}
+
+#button-set button {
+    margin: 3px 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.progress-info-colors {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    border-radius: 5px;
+}
+
+.progress-info > div > div > span {
+    font-size: 18px;
+}
+
+form {
+    height: 100%;
+}
+
+button:focus {
+    outline: none !important;
+}
+
+.ck-button {
+    background-color: #343a40;
+    border-color: #343a40;
+    border-radius: 15px;
+    margin: 10px 20px;
+    color: white !important;
+    font-size: 18px;
+    display: inline-block;
+}
+
+.ck-button span {
+    transition: 0.3s;
+}
+
+.ck-button label {
+    border-radius: 15px;
+    padding: 0;
+    margin: 0;  
+    width: 100%;
+}
+
+.ck-button input:checked + span {
+    background-color: #5cb85c;
+}
+
+.ck-button label span {
+    padding: 15px 10px;
+    border-radius: 15px;
+    text-align: center;
+    display: block;
+}
+
+.noSelect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.left-chx {
+    float: left;
+}
+
+.right-chx {
+    float: right;
+}

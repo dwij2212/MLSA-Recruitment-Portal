@@ -1,0 +1,85 @@
+{% extends 'questions.html' %}
+{% load static %}
+{% block content %}
+
+<form action="{% url 'response_save' pksent id i %}" method="POST">
+    {% csrf_token %}
+
+    <input type="hidden" id="hidden_round" value="2">
+    <input type="hidden" id="start_time" value="{{ time|date:"d M Y H:i:s" }}">
+    <input type="hidden" id="curr_time" value="{{ curr_time|date:"d M Y H:i:s" }}">
+    <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="nav container-fluid">
+            <div class="navbar-logo col-sm-5">
+                <img src="{% static '/images/msp-logo.png' %}">
+                <span>Microsoft Student Partners | BITS Pilani</span>
+            </div>
+            <div class="nav-items row col-sm-7">
+                <div class="nav-item col-sm-3" id="stage-heading"><p>ROUND 2</p></div>
+                <div class="col-sm-1"></div>
+                <div class="nav-item col-sm-4" id="stage-1-back"><p><button type="submit" name="Round1" onclick="goBackRound1()"><i class="fa fa-caret-left"></i>&nbsp;Go Back to Round 1</button></p></div>
+                <div class="nav-item col-sm-4"><p><button type="submit" name="Finish" class="btn btn-success" id="finishBtn" onclick="return finishTest()">Finish Test</button></p></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main container-fluid row">
+
+        <div class="ques-sel container col-sm-2">
+            <p id="ques-sel-title">Progress</p>
+            <p id="ques-sel-time">Time left:- <span id="timer-mins"></span>:<span id="timer-secs"></span> s</p>
+            <br>
+            <div id="button-set">
+                {% for i in n %}
+                <button type="submit" name="progress-number" value="{{ i }}" class="btn btn-default" onclick="btnClickDes()">{{ i }}</button>                
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="content container col-sm-9">
+            <div class="row">
+                <div class="col-xs-1 nav-arrow left"><button type="submit" name="SavePrevious" onclick="btnClickDes()"><i class="fa fa-chevron-left"></i></button></div>
+                <div class="col-xs-10 qa">
+                    <div class="question">
+                        <span class="qnum-span">&nbsp;Question <span id="qnum">{{ pksent }}</span> of <span id="qnum-count">{{ count }}</span>&nbsp;</span>
+                        <span class="marks-span">&nbsp;Marks: <span id="marks">{{ question.marks }}</span>&nbsp;</span>
+                        <br>
+                        <div style="overflow: auto;">
+                            <span id="question-p">{{ question.question }}</span>
+                        </div>
+                    </div>
+                    <div class="response">
+                        <div class="form-group">
+                            <textarea class="form-control" rows="5" id="comment" name = "free_response" placeholder="Enter response here..." autofocus>{{ response }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-1 nav-arrow right"><button type="submit" name="SaveNext" onclick="btnClickDes()"><i class="fa fa-chevron-right"></i></button></div>
+            </div>
+        </div>
+
+        <div class="progress-info container-fluid">
+            <div class="container row col-sm-12">
+                <div class="container col-sm-3">
+                    <div class="progress-info-colors" style="background-color: #5bc0de;"></div>
+                    <span>Current</span>
+                </div>
+                <div class="container col-sm-3">
+                    <div class="progress-info-colors" style="background-color: #5cb85c;"></div>
+                    <span>Answered</span>
+                </div>
+                <div class="container col-sm-3">
+                    <div class="progress-info-colors" style="background-color: #dc3545;"></div>
+                    <span>Not Answered</span>
+                </div>
+                <div class="container col-sm-3">
+                    <div class="progress-info-colors" style="background-color: #fff;"></div>
+                    <span>Yet to Attempt</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+{% endblock %}

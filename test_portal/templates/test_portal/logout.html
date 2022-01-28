@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <script language = "javascript" type = "text/javascript">
+	function clearLS() {
+		window.localStorage.clear();	
+	}
+	window.onload = clearLS;
+    </script>
+    <div class="content">
+        <div class="section-inner clearfix">
+ 
+        <p>You have completed your test. Thank you for joining us.</p>
+ 
+        </div>
+    </div>
+ 
+{% endblock %}

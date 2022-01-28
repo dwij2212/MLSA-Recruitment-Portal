@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div id="root" style="height: 100%; overflow: hidden;">
+    <nav class="navbar navbar-expand-md navbar-dark" style="background-color: black !important;">
+        <a class="navbar-brand" href="#">
+            <img id="nav-image" src="{% static '/login/images/MLSA_logo.png' %}" alt="">
+        </a>
+        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse navbar-right" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'test_login' %}">Login</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-item nav-link" href="#">Register<span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class = "container">
+        <div class = "row">
+            <div class="centered col-11" id="whitebox">
+                <div class="container-fluid">
+                    <div class="row">
+                        <img src="{% static 'images/MLSA_badge.png' %}" alt="" style="width:85px">&nbsp;
+                        <h1 class="display-4 white-font">Register</h1>
+                    </div>
+                </div>
+                {% if messages %}
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+                </ul>
+                {% endif %}
+                <form method = "POST" style="padding: 10px" id="register" >
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="firstName" class="white-font">First Name</label>
+                        <input type="text" class="form-control" name="firstName" id="firstName" placeholder="Tom" pattern="[a-zA-Z]{1,25}" maxlength="25" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName" class="white-font">Last Name</label>
+                        <input type="text" class="form-control" name="lastName"  id="lastName" placeholder="Cruise" pattern="[a-zA-Z]{1,25}" maxlength="25"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username" class="white-font">Username</label>
+                        <input type="text" class="form-control" name="username" id="username" placeholder="As on slip" maxlength="25" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1" class="white-font">Email address</label>
+                        <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp"
+                            placeholder="name@example.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+                        <small id="emailHelp" class="form-text text-muted white-font">We'll never share your email with anyone
+                            else.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputPassword1" class="white-font">Phone Number</label>
+                        <input type="tel" class="form-control" name="contact" id="phoneNumber" placeholder="9876567890" inputmode="numeric" minlength="10" maxlength="10" pattern="\d{10}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bitsid" class="white-font">BITS ID</label>
+                        <input type="text" class="form-control" name="bitsid" id="bitsid" placeholder="2019A3PS0123P"  pattern="2019(AB|A\d|B\d)[PT]S\d{4}P" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1" class="white-font">I think I am good at...</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" name = "description" rows="3" required></textarea>
+                    </div>
+
+                    <input type="submit" class="btn btn-primary btn-block btn-lg" style="background-color: #5c2d91" value = "Register" />
+                </form>
+            </div>
+        </div>
+    </div>
+    <canvas id="c"></canvas>
+    <script src="{% static 'script.js' %}"></script>
+</div>
+<!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+
+
+{% endblock %}

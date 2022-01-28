@@ -1,0 +1,8 @@
+db.sqlite3
+mspsite/__pycache__/
+newdjango/
+test_portal/__pycache__/
+test_portal/migrations/__pycache__/
+test_portal/migrations/
+.idea/workspace.xml
+env/*

@@ -1,0 +1,143 @@
+{% extends 'questions.html' %}
+{% load static %}
+{% block content %}
+
+
+<form action="{% url 'response_savem' pksent id pksent %}" method="POST">
+    {% csrf_token %}
+
+    <input type="hidden" id="hidden_round" value="1">
+    <input type="hidden" id="start_time" value="{{ time|date:"d M Y H:i:s" }}">
+    <input type="hidden" id="curr_time" value="{{ curr_time|date:"d M Y H:i:s" }}">
+    
+
+    <nav class="navbar navbar-dark">
+        <a class="navbar-brand" href="#">
+            <img id="nav-image" src="{% static '/login/images/MLSA_logo.png' %}" alt="">
+        </a>
+        <ul class="navbar-nav mr-auto">
+            
+        </ul>
+        <button type="submit" name="Finish" id="round1-logout" style="margin-top: 0 !important;" class="nav-item nav-link" >
+            Submit
+        </button>
+    </nav>
+    <!-- <div class="nav">
+            <div class="navbar-logo">
+                <img src="{% static '/images/MLSA_badge.png' %}">
+                <span>Microsoft Learn Student Ambassadors | BITS Pilani</span>
+                <span class="nav-item ml-auto" id="stage-2-proceed">
+                        <button  class="ml-auto float-right"type="submit" name="Round2" onclick="proceedRound2()">Proceed to Round 2 &nbsp;<i class="fa fa-caret-right"></i>
+                        </button>
+                </span>
+                <button type="submit" name="Finish" id="round1-logout"></button>
+            </div>
+        </div> -->
+
+    <div class="container box">
+        <div class="row mt-4">
+            <div class=" col-lg-3">
+                <div class="ques-sel">
+                    <p id="ques-sel-title" class="white-font">Progress</p>
+                    <p id="ques-sel-time" class="white-font">Time left:- <span id="timer-mins"></span>:<span id="timer-secs"></span> s</p>
+                    <br>
+                    <div id="button-set">
+                        {% for i in n %}
+                        <button type="submit" name="progress-number" value="{{ i }}" class="btn btn-default white-font" onclick="btnClickMCQ()">{{ i }}</button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-4 pt-md-0 col-lg-9">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-2 col-lg-1 nav-arrow left"><button type="submit" name="SavePrevious" onclick="btnClickMCQ()"><i class="fa fa-chevron-left"></i></button></div>
+                        <div class="col-8 col-lg-10 qa">
+                            <div class="question">
+                                <div class="qnum-span white-font d-block d-md-inline">&nbsp;Question <span class="white-font" id="qnum">{{ pksent }}</span> of <span class="white-font" id="qnum-count">{{ count }}</span>&nbsp;</div>
+                                <div class="marks-span white-font d-block d-md-inline">&nbsp;Marks: <span class="white-font" id="marks">{{ question.marks }}</span>&nbsp;</div>
+                                <br>
+                                <div style="overflow: auto; margin-top:7px;">
+                                    <span class="sfont" id="question-p">{{ question.question }}</span>
+                                </div>
+                            </div>
+                            <div class="response">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="mx-0 mx-md-4 ck-button px-0 col-12 col-md-4">
+                                            <label>
+                                                {% if response1 %}
+                                                <input type="checkbox" name="response1" id="id_response1" value="Option 1" class="left-chx sfont" checked hidden><span class="noSelect sfont">{{ question.opt1 }}</span>
+                                                {% else %}
+                                                <input type="checkbox" name="response1" id="id_response1" value="Option 1" class="left-chx sfont" hidden><span class="noSelect sfont">{{ question.opt1 }}</span>
+                                                {% endif %}
+                                            </label>
+                                        </div>
+
+                                        <div class="mx-0 mx-md-4 ck-button px-0 col-12 col-md-4">
+                                            <label>
+                                                {% if response2 %}
+                                                <input type="checkbox" name="response2" id="id_response2" value="Option 2" class="right-chx sfont" checked hidden><span class="noSelect sfont">{{ question.opt2 }}</span>
+                                                {% else %}
+                                                <input type="checkbox" name="response2" id="id_response2" value="Option 2" class="right-chx sfont" hidden><span class="noSelect sfont">{{ question.opt2 }}</span>
+                                                {% endif %}
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="mx-0 mx-md-4 ck-button px-0 col-12 col-md-4">
+                                            <label>
+                                                {% if response3 %}
+                                                <input type="checkbox" name="response3" id="id_response3" value="Option 3" class="left-chx sfont" checked hidden><span class="noSelect sfont">{{ question.opt3 }}</span>
+                                                {% else %}
+                                                <input type="checkbox" name="response3" id="id_response3" value="Option 3" class="left-chx sfont" hidden><span class="noSelect sfont">{{ question.opt3 }}</span>
+                                                {% endif %}
+                                            </label>
+                                        </div>
+
+                                        <div class="mx-0 mx-md-4 ck-button px-0 col-12 col-md-4">
+                                            <label>
+                                                {% if response4 %}
+                                                <input type="checkbox" name="response4" id="id_response4" value="Option 4" class="right-chx sfont" checked hidden><span class="noSelect sfont">{{ question.opt4 }}</span>
+                                                {% else %}
+                                                <input type="checkbox" name="response4" id="id_response4" value="Option 4" class="right-chx sfont" hidden><span class="noSelect sfont">{{ question.opt4 }}</span>
+                                                {% endif %}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2 col-lg-1 nav-arrow right"><button type="submit" name="SaveNext" onclick="btnClickMCQ()"><i class="fa fa-chevron-right"></i></button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="instruct-row row mt-4">
+            <div class="col-lg-3">
+                <div class="progress-info-colors" style="background-color: #5bc0de;"></div>
+                <span class="white-font">&nbsp;Current</span>
+            </div>
+            <div class="col-lg-3">
+                <div class="progress-info-colors" style="background-color: #5cb85c;"></div>
+                <span class="white-font">&nbsp;Answered</span>
+            </div>
+            <div class="col-lg-3">
+                <div class="progress-info-colors" style="background-color: #dc3545;"></div>
+                <span class="white-font">&nbsp;Not Answered</span>
+            </div>
+            <div class="col-lg-3">
+                <div class="progress-info-colors" style="background-color: #fff;"></div>
+                <span class="white-font">&nbsp;Yet to Attempt</span>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+
+{% endblock %}
