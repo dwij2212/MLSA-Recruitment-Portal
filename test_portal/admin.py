@@ -2,9 +2,9 @@ from django.contrib import admin
 
 
 # Register your models here.
-from .models import Candidate, QuestionMCQ, ResponseMCQ, QuestionSub, ResponseSub, Exam
+from .models import QuestionMCQ, ResponseMCQ, QuestionSub, ResponseSub, Exam #,Candidate
 
-admin.site.register(Candidate)
+#admin.site.register(Candidate)
 admin.site.register(ResponseMCQ)
 admin.site.register(Exam)
 
@@ -18,4 +18,4 @@ class QuestionMCQAdmin(admin.ModelAdmin):
 
 @admin.register(ResponseSub)
 class ResponseSubAdmin(admin.ModelAdmin):
-    list_display=['bitsid','quesno','free_response','marks']
+    list_display=['quesno','free_response','marks']

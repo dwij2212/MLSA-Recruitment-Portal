@@ -1,15 +1,16 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .models import Candidate
+#from .models import Candidate 
 from django.contrib import auth
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from .forms import PostForm
+#from .forms import PostForm
 from .models import QuestionSub, QuestionMCQ
 from .models import ResponseSub, ResponseMCQ, Exam
 from .forms import GetResponse, GetResponseMCQ
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -24,25 +25,25 @@ def test(request):
 
 def register(request):
     # handles logic to register students
-    if request.method == "POST":
-        form = PostForm(request.POST)
+    #if request.method == "POST":
+        #form = PostForm(request.POST)
 
-        if form.is_valid():
-            candidate = Candidate()
-            candidate.firstName = form.cleaned_data["firstName"]
-            candidate.lastName = form.cleaned_data["lastName"]
-            candidate.username = form.cleaned_data["username"]
-            candidate.email = form.cleaned_data["email"]
-            candidate.bitsid = form.cleaned_data["bitsid"]
-            candidate.contact = form.cleaned_data["contact"]
-            candidate.description = form.cleaned_data["description"]
-            candidate.save()
-            return redirect("test_login")
-        else:
-            messages.error(request, form.errors)
-    else:
-        form = PostForm()
-    return render(request, "test_portal/register.html", {"form": form})
+        # if form.is_valid():
+        #     candidate = Candidate()
+        #     candidate.firstName = form.cleaned_data["firstName"]
+        #     candidate.lastName = form.cleaned_data["lastName"]
+        #     candidate.username = form.cleaned_data["username"]
+        #     candidate.email = form.cleaned_data["email"]
+        #     candidate.bitsid = form.cleaned_data["bitsid"]
+        #     candidate.contact = form.cleaned_data["contact"]
+        #     candidate.description = form.cleaned_data["description"]
+        #     candidate.save()
+        #     return redirect("test_login")
+        # else:
+        #     messages.error(request, form.errors)
+    #else:
+        #form = PostForm()
+    return render(request, "test_portal/register.html")#, {"form": form})
 
 
 def login(request):
@@ -51,14 +52,16 @@ def login(request):
         return redirect(ques_detail_mcq, id=request.user.username)
 
     if request.method == "POST":
-        username = request.POST.get("username")
+        #username = request.POST.get("username")
+        username = User.username
         password = request.POST.get("password")
-        user = auth.authenticate(username=username, password=password)
+        user = auth.authenticate(username= username, password=password)
 
         # correct username and password login the user
         if user is not None:
             try:
-                user1 = Candidate.objects.get(username=username)
+                #user1 = Candidate.objects.get(username=username)
+                user1 = User.objects.get(username=username)
                 exam = Exam.objects.get(user=user1)
                 if exam.logged_out is 1:
                     return HttpResponse("You have finished the test")
@@ -67,7 +70,7 @@ def login(request):
                     return redirect(ques_detail_mcq, id=username)
             except Exam.DoesNotExist:
                 exam = Exam()
-                exam.user = Candidate.objects.get(username=username)
+                exam.user = User.objects.get(username=username)
                 exam.start_time = timezone.now()
                 exam.logged_in = 1
                 exam.save()
@@ -79,6 +82,29 @@ def login(request):
 
     return render(request, "test_portal/login.html")
 
+def start(request):
+    if request.user.is_authenticated:
+        user = User.username
+        if user is not None:
+            try:
+                #user1 = Candidate.objects.get(username=username)
+                username = user
+                user1 = User.username#.objects.get(username=username)
+                exam = Exam.objects.get(username=user1)
+                if exam.logged_out is 1:
+                    return HttpResponse("You have finished the test")
+                else:
+                    auth.login(request, user)
+                    return redirect(ques_detail_mcq, id=username)
+            except Exam.DoesNotExist:
+                exam = Exam()
+                exam.user = User.objects.get(username=username)
+                exam.start_time = timezone.now()
+                exam.logged_in = 1
+                exam.save()
+                auth.login(request, user)
+                return redirect(ques_detail_mcq, id=username)
+        return redirect(ques_detail_mcq, id=request.user.username)
 
 def ques_detail_mcq(request, ques_no=1, id="a"):
     # logic which displays the form which in turn collects student responses
@@ -92,12 +118,12 @@ def ques_detail_mcq(request, ques_no=1, id="a"):
 
     question = QuestionMCQ.objects.get(ques_no=ques_no)
 
-    user1 = Candidate.objects.get(username=id)
-    exam = Exam.objects.get(user=user1)
+    user1 = User.objects.get(username=id)
+    exam = Exam.objects.get(username=user1)
     time = exam.start_time
 
     try:
-        user = Candidate.objects.get(username=id)
+        user = User.objects.get(username=id)
         new = ResponseMCQ.objects.get(
             user=user, question=QuestionMCQ.objects.get(ques_no=ques_no)
         )
@@ -144,7 +170,9 @@ def response_savem(request, pk, next, id="a"):
     if request.method == "POST":
         try:
             response = ResponseMCQ.objects.get(
-                user=Candidate.objects.get(username=id),
+                user=User.objects.get(username=id),
+                #user=Candidate.objects.get(username=id),
+
                 question=QuestionMCQ.objects.get(ques_no=pk),
             )
         except ResponseMCQ.DoesNotExist:
@@ -167,7 +195,8 @@ def response_savem(request, pk, next, id="a"):
             ):
                 response.marks = response.question.marks
 
-            response.user = Candidate.objects.get(username=id)
+            #response.user = Candidate.objects.get(username=id)
+            response.user = User.objects.get(username=id)
             response.save()
             if "SavePrevious" in request.POST:
                 next = pk - 1
@@ -178,7 +207,8 @@ def response_savem(request, pk, next, id="a"):
                 return redirect("ques_detail_mcq", ques_no=next, id=id)
 
             elif "Finish" in request.POST:
-                user = Candidate.objects.get(username=id)
+                #user = Candidate.objects.get(username=id)
+                user = User.objects.get(username=id)
                 exam = Exam.objects.get(user=user)
                 exam.logged_out = 1
                 exam.save()
@@ -207,12 +237,14 @@ def question_list(request, ques_no=1, id="a"):
 
     question = QuestionSub.objects.get(ques_no=ques_no)
 
-    user1 = Candidate.objects.get(username=id)
+    #user1 = Candidate.objects.get(username=id)
+    user1 = User.objects.get(username=id)
     exam = Exam.objects.get(user=user1)
     time = exam.start_time
 
     try:
-        user = Candidate.objects.get(username=id)
+        #user = Candidate.objects.get(username=id)
+        user = User.objects.get(username=id)
         new = ResponseSub.objects.get(
             user=user, question=QuestionSub.objects.get(ques_no=ques_no)
         )
@@ -249,7 +281,8 @@ def response_save(
     if request.method == "POST":
         try:
             response = ResponseSub.objects.get(
-                user=Candidate.objects.get(username=id),
+                #user=Candidate.objects.get(username=id),
+                user=User.objects.get(username=id),
                 question=QuestionSub.objects.get(ques_no=pk),
             )
         except ResponseSub.DoesNotExist:
@@ -258,7 +291,8 @@ def response_save(
         if response_rec.is_valid():
             response.free_response = response_rec.cleaned_data["free_response"]
             response.question = QuestionSub.objects.get(ques_no=pk)
-            response.user = Candidate.objects.get(username=id)
+            #response.user = Candidate.objects.get(username=id)
+            response.user = User.objects.get(username=id)
             response.save()
             if "SavePrevious" in request.POST:
                 next = pk - 1
@@ -272,7 +306,8 @@ def response_save(
                 return redirect(ques_detail_mcq, id=id)
 
             elif "Finish" in request.POST:
-                user = Candidate.objects.get(username=id)
+                #user = Candidate.objects.get(username=id)
+                user = User.objects.get(username=id)
                 exam = Exam.objects.get(user=user)
                 exam.logged_out = 1
                 exam.save()
@@ -291,3 +326,5 @@ def response_save(
 def logout(request):
     auth.logout(request)
     return render(request, "test_portal/thankYou.html")
+
+

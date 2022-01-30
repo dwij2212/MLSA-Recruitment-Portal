@@ -19,13 +19,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from django.conf import settings
-from tqdm import tqdm
+#from tqdm import tqdm
 User = get_user_model()
 
 file = 'passwords.csv'
 
 data = csv.reader(open(file), delimiter=",")
-for row in tqdm(data):
+for row in data:
     if row[0] != "Number":
     # Post.id = row[0]
         Post=User()
@@ -33,3 +33,4 @@ for row in tqdm(data):
         Post.username = row[0]
         Post.email = ''
         Post.save()
+        print("done", row)

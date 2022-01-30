@@ -1,12 +1,12 @@
 from django import forms
 from .models import ResponseSub, ResponseMCQ
-from .models import Candidate
+#from .models import Candidate
 
-class PostForm(forms.ModelForm):
+# class PostForm(forms.ModelForm):
 
-    class Meta:
-        model = Candidate
-        fields = ('firstName', 'lastName', 'username', 'email', 'bitsid', 'contact', 'description', )
+#     class Meta:
+#         model = Candidate
+#         fields = ('firstName', 'lastName', 'username', 'email', 'bitsid', 'contact', 'description', )
 
 class GetResponse(forms.ModelForm):
 
