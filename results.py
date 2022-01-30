@@ -1,6 +1,7 @@
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mspsite.settings")
-
+# import smtplib
+# from email.message import EmailMessage
 import django
 django.setup()
 
@@ -33,8 +34,22 @@ def to_excel_sheet(df):
         if i%10 == 0:
             print("Marks for {num} th Candidate calculated".format(num=i))
 
-        df = df.append({'Name': candidate.firstName + " " + candidate.lastName, 'Email':candidate.email, 'Marks':marks}, ignore_index=True)
+        df = df.append({'Name': candidate.firstName + " " + candidate.lastName, 'Email':candidate.email[7:], 'Marks':marks}, ignore_index=True)
+        # msg = EmailMessage()
+        # body = "Greetings from MLSA! \n Thank you for showing your interest in the club and attending the test. We have validated your responses and your scores have been generated.\nYour Score : <<Marks>>\n\nYou will be contacted soon if you are selected for further rounds."
+        # msg.set_content(body)
+        # msg['subject']= "MLSA Recruitment Test Results" 
+        # msg['to']= candidate.email[7:]
+        
+        # user = "supreeth.mksupreeth@gmail.com"
+        # msg['from'] = user
+        # password='eqinpbunocxuxqta'
+
+        # server = smtplib.SMTP("smtp.gmail.com",587)
+        # server.starttls()
+        # server.login(user,password)
+        # server.send_message(msg)
+        # server.quit()
 
     df.to_csv("Results.csv")
 
-to_excel_sheet(main_df)
